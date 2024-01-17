@@ -9,13 +9,23 @@ Implementations of variant, optional, function and other std classes.
 + [Shared Pointer. Weak Pointer](#ptr)
 
 # Optional
-Optional implementations is fully `constexpr`. The copy ctor, move ctor, copy assign and move assign are also supported if the stored type supports them.
+Implementation of [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional). Optional is fully `constexpr`. The copy ctor, move ctor, copy assign and move assign are also supported if the stored type supports them.
 
 ### Member functions
 | Function | Description |
 | --- | --- |
-| `operator->` | List all *new or modified* files |
-| `operator bool` | Show file differences that **haven't been** staged |
+| `T& Emplace(Args&&... args)` | Constructs the contained value in-place |
+| `constexpr T* operator->()`<br>`constexpr const T* operator->() const` | Accesses the contained value |
+| `constexpr T& operator*()`<br>`constexpr const T& operator*() const` | Accesses the contained value |
+| `constexpr explicit operator bool() const` | Checks whether the object contains a value |
+| `constexpr void Swap(Optional& other)` | Swaps with `other` |
+| `operator==`<br>`operator!=`<br>`operator<`<br>`operator<=`<br>`operator>`<br>`operator>=` | Compares optional objects as their contained values |
+
+### Non-member functions
+| Function | Description |
+| --- | --- |
+| `constexpr void swap(Optional<T>& a, Optional<T>& b)` | Swaps the given optionals |
+
 ### Example
 ```cpp
 constexpr bool Test() {
@@ -28,13 +38,25 @@ static_assert(Test());
 ```
 
 # Variant
-The interface and all properties and guarantees correspond to `std::variant` (specialization for `std::hash` is not implemented). Variant retains triviality for special members (destructors, constructors, and assignment operators).
+The interface and all properties and guarantees correspond to [`std::variant`](https://en.cppreference.com/w/cpp/utility/variant). Variant retains triviality for special members (destructors, constructors, and assignment operators).
 
 ### Member functions
 | Function | Description |
 | --- | --- |
-| `operator->` | List all *new or modified* files |
-| `operator bool` | Show file differences that **haven't been** staged |
+| `constexpr size_t Index() const noexcept` | Returns the zero-based index of the alternative held by the variant |
+| `constexpr bool ValuelessByException() const noexcept` | Checks if the variant is in the invalid state |
+| `constexpr void MakeValueless() noexcept` | Puts the variant in the invalid state |
+| `constexpr T& Emplace(Args&&... args)` | Constructs a value in the variant, in place |
+| `constexpr void Swap(Variant& other)` | Swaps with `other` |
+| `operator==`<br>`operator!=`<br>`operator<`<br>`operator<=`<br>`operator>`<br>`operator>=` | Compares variant objects as their contained values |
+
+### Non-member functions
+| Function | Description |
+| --- | --- |
+| `constexpr decltype(auto) Visit(F&& vis, Vs&&... variants)` | Calls the provided functor with the arguments held by one or more variants |
+| `cpp::variant::Get` | Reads the value of the variant given the index |
+| `cpp::variant::GetIf` | Obtains a pointer to the value of a pointed-to variant given the index |
+
 ### Example
 ```cpp
 constexpr void Test() {
@@ -59,7 +81,7 @@ Implementation of [`std::function`](https://en.cppreference.com/w/cpp/utility/fu
 ### Non-member functions
 | Function | Description |
 | --- | --- |
-| `void swap(Function<F(Args...)>& a, Function<F(Args...)>& b)` | Exchanges the given functions |
+| `void swap(Function<F(Args...)>& a, Function<F(Args...)>& b)` | Swaps the given functions |
 
 ### Example
 ```cpp
@@ -197,7 +219,7 @@ Shared Pointer:
 | `T* Get() const noexcept` | Returns the stored pointer |
 | `T& operator*() const noexcept` | Dereferences the stored pointer |
 | `T* operator->() const noexcept` | Dereferences the stored pointer |
-| `size_t UseCount() const noexcept` | Returns the number of `SharedPointer` objects referring<br>to the same managed object |
+| `size_t UseCount() const noexcept` | Returns the number of `SharedPointer` objects referring to the same managed object |
 | `void Reset()` | Replaces the managed object |
 | `void Reset(T* data, Deleter&& deleter)` | Replaces the managed object with an object pointed to by `data` |
 | `void Swap(SharedPointer<T>& other) noexcept` | Swaps the managed objects with `other` |
@@ -205,8 +227,8 @@ Shared Pointer:
 Weak Pointer:
 | Function | Description |
 | --- | --- |
-| `explicit WeakPointer(const SharedPointer<T>& shared_pointer)` | Constructs new `WeakPointer` which shares an object<br>managed by `shared_pointer` |
-| `size_t UseCount() const noexcept` | Returns the number of `SharedPointer` objects referring<br>to the same managed object |
+| `explicit WeakPointer(const SharedPointer<T>& shared_pointer)` | Constructs new `WeakPointer` which shares an object managed by `shared_pointer` |
+| `size_t UseCount() const noexcept` | Returns the number of `SharedPointer` objects referring to the same managed object |
 | `bool IsExpired() const noexcept` | Checks whether the referenced object was already deleted |
 | `void Swap(WeakPointer& other) noexcept` | Swaps the managed objects with `other` |
 
