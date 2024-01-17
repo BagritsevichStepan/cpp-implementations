@@ -8,7 +8,7 @@ Implementations of variant, optional, function and other std classes.
 + [Intrusive List](#list)
 + [Shared Pointer. Weak Pointer](#ptr)
 
-## Optional
+# Optional
 Optional implementations is fully `constexpr`. The copy ctor, move ctor, copy assign and move assign are also supported if the stored type supports them.
 
 ### Member functions
@@ -27,7 +27,7 @@ constexpr bool Test() {
 static_assert(Test());
 ```
 
-## Variant
+# Variant
 The interface and all properties and guarantees correspond to `std::variant` (specialization for `std::hash` is not implemented). Variant retains triviality for special members (destructors, constructors, and assignment operators).
 
 ### Member functions
@@ -45,7 +45,7 @@ constexpr void Test() {
 }
 ```
 
-## Function
+# Function
 Implementation of [`std::function`](https://en.cppreference.com/w/cpp/utility/functional/function). Instances of `cpp::function::Function` can store, copy, and invoke any **callable** target -- functions, lambda expressions or other function objects.
 
 ### Member functions
@@ -73,7 +73,7 @@ assert(fun(5) == 10);
 assert(fun(9) == 14);
 ```
 
-## Signal
+# Signal
 Implementation of signals similar to [those used in Qt](https://doc.qt.io/qt-5/signalsandslots.html).
 
 You can add callbacks to the signal, which will be called when an event has occurred. After connecting to the signal, the `Connection` class will be returned to you, which you can use to disconnect the callback from the signal.
@@ -109,7 +109,7 @@ assert(2 == got1);
 assert(2 == got2);
 ```
 
-## <a name="list"></a>Intrusive List
+# <a name="list"></a>Intrusive List
 Intrusive implementations of the [`std::list`](https://en.cppreference.com/w/cpp/container/list).
 More about intrusive data structures: [Link](https://www.boost.org/doc/libs/1_82_0/doc/html/intrusive/intrusive_vs_nontrusive.html).
 
@@ -186,7 +186,7 @@ List=[Node=[value=4], Node=[value=2], Node=[value=1], Node=[value=3], Node=[valu
 ```
 
 
-## <a name="ptr"></a>Shared Pointer. Weak Pointer
+# <a name="ptr"></a>Shared Pointer. Weak Pointer
 Implementation of [`std::shared_ptr`](https://en.cppreference.com/w/cpp/memory/shared_ptr) and [`std::weak_ptr`](https://en.cppreference.com/w/cpp/memory/weak_ptr).
 The [`std::make_shared`](https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared) was also implemented.
 
