@@ -46,13 +46,21 @@ constexpr void Test() {
 ```
 
 ## Function
-Function
+Implementation of [`std::function`](https://en.cppreference.com/w/cpp/utility/functional/function). Instances of `cpp::function::Function` can store, copy, and invoke any **callable** target -- functions, lambda expressions or other function objects.
 
 ### Member functions
 | Function | Description |
 | --- | --- |
-| `operator->` | List all *new or modified* files |
-| `operator bool` | Show file differences that **haven't been** staged |
+| `F operator()(Args... args)` | Invokes the target with specified arguments |
+| `T* target() noexcept` | Obtains a pointer to the stored target |
+| `explicit operator bool() const noexcept` | Checks if a target is contained |
+| `void Swap(Function& other)` | Swaps the contents with `other` |
+
+### Non-member functions
+| Function | Description |
+| --- | --- |
+| `void swap(Function<F(Args...)>& a, Function<F(Args...)>& b)` | Exchanges the given functions |
+
 ### Example
 ```cpp
 int state = 5;
@@ -66,13 +74,24 @@ assert(fun(9) == 14);
 ```
 
 ## Signal
-Signal
+Implementation of signals similar to [those used in Qt](https://doc.qt.io/qt-5/signalsandslots.html).
+
+You can add callbacks to the signal, which will be called when an event has occurred. After connecting to the signal, the `Connection` class will be returned to you, which you can use to disconnect the callback from the signal.
+
+**The main problem** is that in the body of a some callback the user can disconnect other callbacks from the signal. This can be solved by tricky method using two [intrusive lists](#list).
 
 ### Member functions
+Signal:
 | Function | Description |
 | --- | --- |
-| `operator->` | List all *new or modified* files |
-| `operator bool` | Show file differences that **haven't been** staged |
+| `Connection Connect(std::function<void(Args...)> slot)` | Connects function to the signal |
+| `void operator()(Args... args)` | Invokes all connected callbacks |
+
+Connection:
+| Function | Description |
+| --- | --- |
+| `void Disconnect()` | Disconnects function from the signal |
+
 ### Example
 ```cpp
 cpp::signal::Signal<void()> signal{};
