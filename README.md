@@ -107,7 +107,7 @@ Signal:
 | Function | Description |
 | --- | --- |
 | `Connection Connect(std::function<void(Args...)> slot)` | Connects function to the signal |
-| `void operator()(Args... args)` | Invokes all connected callbacks |
+| `void operator()(Args... args)` | Invokes all connected functions |
 
 Connection:
 | Function | Description |
