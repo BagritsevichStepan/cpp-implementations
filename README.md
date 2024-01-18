@@ -18,7 +18,7 @@ Implementation of [`std::optional`](https://en.cppreference.com/w/cpp/utility/op
 | `constexpr T* operator->()`<br>`constexpr const T* operator->() const` | Accesses the contained value |
 | `constexpr T& operator*()`<br>`constexpr const T& operator*() const` | Accesses the contained value |
 | `constexpr explicit operator bool() const` | Checks whether the object contains a value |
-| `constexpr void Swap(Optional& other)` | Swaps with `other` |
+| `constexpr void Swap(Optional& other)` | Swaps the contents with `other` |
 | `operator==`<br>`operator!=`<br>`operator<`<br>`operator<=`<br>`operator>`<br>`operator>=` | Compares optional objects as their contained values |
 
 ### Non-member functions
@@ -47,7 +47,7 @@ The interface and all properties and guarantees correspond to [`std::variant`](h
 | `constexpr bool ValuelessByException() const noexcept` | Checks if the variant is in the invalid state |
 | `constexpr void MakeValueless() noexcept` | Puts the variant in the invalid state |
 | `constexpr T& Emplace(Args&&... args)` | Constructs a value in the variant, in place |
-| `constexpr void Swap(Variant& other)` | Swaps with `other` |
+| `constexpr void Swap(Variant& other)` | Swaps the contents with `other` |
 | `operator==`<br>`operator!=`<br>`operator<`<br>`operator<=`<br>`operator>`<br>`operator>=` | Compares variant objects as their contained values |
 
 ### Non-member functions
