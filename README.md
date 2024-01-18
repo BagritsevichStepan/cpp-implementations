@@ -9,7 +9,7 @@ Implementations of variant, optional, function and other std classes.
 + [Shared Pointer. Weak Pointer](#ptr)
 
 # Optional
-Implementation of [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional). Optional is fully `constexpr`. The copy ctor, move ctor, copy assign and move assign are also supported if the stored type supports them.
+Implementation of [`std::optional`](https://en.cppreference.com/w/cpp/utility/optional). It is fully `constexpr`. The copy ctor, move ctor, copy assign and move assign are also supported if the stored type supports them.
 
 ### Member functions
 | Function | Description |
