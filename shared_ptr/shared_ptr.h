@@ -2,6 +2,7 @@
 #define CPP_IMPLEMENTATIONS_SHARED_PTR_H
 
 #include <iostream>
+#include <memory>
 #include <cassert>
 #include <type_traits>
 
@@ -169,6 +170,8 @@ namespace cpp::pointer {
 
         void Swap(WeakPointer& other);
 
+        SharedPointer<T> Lock();
+
         [[nodiscard]] size_t UseCount() const noexcept;
         [[nodiscard]] bool IsExpired() const noexcept;
 
@@ -325,6 +328,11 @@ namespace cpp::pointer {
     void WeakPointer<T>::Swap(WeakPointer& other) {
         using std::swap;
         swap(control_block_, other.control_block_);
+    }
+
+    template<typename T>
+    SharedPointer<T> WeakPointer<T>::Lock() {
+        return IsExpired() ? SharedPointer<T>() : SharedPointer<T>(control_block_, control_block_->GetPointer());
     }
 
     template<typename T>

@@ -42,6 +42,7 @@ int main() {
     {
         cpp::pointer::SharedPointer<EmptyClass> shared_ptr_for_weak = cpp::pointer::MakeShared<EmptyClass>();
         weak_pointer1 = new cpp::pointer::WeakPointer(shared_ptr_for_weak);
+        cpp::pointer::SharedPointer<EmptyClass> another_shared_ptr = weak_pointer1->Lock();
     }
 
     assert(weak_pointer1->IsExpired());
